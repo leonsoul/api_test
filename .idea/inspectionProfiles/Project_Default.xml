@@ -1,0 +1,40 @@
+<component name="InspectionProjectProfileManager">
+  <profile version="1.0">
+    <option name="myName" value="Project Default" />
+    <inspection_tool class="PyUnresolvedReferencesInspection" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="ignoredIdentifiers">
+        <list>
+          <option value="turtle.penup" />
+          <option value="turtle.*" />
+          <option value="tkinter.Font" />
+          <option value="tkinter.tkFont" />
+          <option value="pip.get_installed_distributions" />
+          <option value="WXPY.Tool.wx_bot.wxb.Bot.start" />
+          <option value="WXPY.Tool.wx_bot.wxb.Bot._cleanup" />
+          <option value="api.chats" />
+          <option value="wxpy.api.chats.chats.Chats.puid" />
+          <option value="wxpy.api.chats.chats.Chats.raw" />
+          <option value="wxpy.api.chats.chats.Chats.*" />
+          <option value="DDphoto.DD_APP.common.public.logscreen.error_path" />
+          <option value="getcwd" />
+          <option value="DD_APP.common.public.slide.sLIDe.get_window_size" />
+          <option value="DD_APP.common.public.slide.sLIDe.swipe" />
+          <option value="DD_APP.common.Business.ph_list_action.List_Admin_" />
+          <option value="DD_APP.common.Business.into_album._photos" />
+          <option value="config.APP_NAME" />
+          <option value="typing.ItemsView.*" />
+          <option value="dict.iteritems" />
+          <option value="HTMLTestRunner" />
+          <option value="common.xml_utils" />
+          <option value="xml.dom" />
+          <option value="sweetest.autotest.Autotest.report" />
+          <option value="DDphoto.DD_API.driver.Config" />
+          <option value="read_test_txt" />
+          <option value="md5" />
+          <option value="httplib" />
+          <option value="ALL_api.common.servers_verify.apdk" />
+        </list>
+      </option>
+    </inspection_tool>
+  </profile>
+</component>
