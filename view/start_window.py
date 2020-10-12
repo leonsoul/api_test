@@ -13,6 +13,8 @@ from PyQt5.QtCore import Qt
 from UI.start_page import Ui_Form
 from PyQt5.QtWidgets import QWidget, QApplication
 
+from view._login_view import login_window
+
 
 class staRT_PAGE(Ui_Form,QWidget):
     def __init__(self):
@@ -37,9 +39,10 @@ class staRT_PAGE(Ui_Form,QWidget):
         # 登录获取token
         # print(tag)
         if tag == 'register':
-            print('登录')
-            # self.log_main = MY_window3()
-            # self.log_main.show()
+            # print('登录')
+            self.log_main = login_window()
+            self.log_main.show()
+            self.shut()
         # 不需要登录直接操作
         if tag == 'unenlist':
             print('取消')
@@ -52,6 +55,8 @@ class staRT_PAGE(Ui_Form,QWidget):
         """
         if QKeyEvent.key() == Qt.Key_Enter or QKeyEvent.key() == Qt.Key_Return:
             self.login.click()
+    def shut(self):   #被调用的类需要再编写一个close函数
+        self.close()
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)

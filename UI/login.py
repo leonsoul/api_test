@@ -10,6 +10,8 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
+from common._util import start_bj
+
 
 class Ui_Form(object):
     def setupUi(self, Form):
@@ -19,7 +21,7 @@ class Ui_Form(object):
         self.label = QtWidgets.QLabel(Form)
         self.label.setGeometry(QtCore.QRect(-60, -10, 1440, 1080))
         self.label.setText("")
-        self.label.setPixmap(QtGui.QPixmap("../img/bg.jpg"))
+        self.label.setPixmap(QtGui.QPixmap(start_bj))
         self.label.setObjectName("label")
         self.label_2 = QtWidgets.QLabel(Form)
         self.label_2.setGeometry(QtCore.QRect(10, 30, 51, 41))
