@@ -14,6 +14,7 @@ from UI.start_page import Ui_Form
 from PyQt5.QtWidgets import QWidget, QApplication
 
 from view._login_view import login_window
+from view.run_view import run_window
 
 
 class staRT_PAGE(Ui_Form,QWidget):
@@ -45,9 +46,9 @@ class staRT_PAGE(Ui_Form,QWidget):
             self.shut()
         # 不需要登录直接操作
         if tag == 'unenlist':
-            print('取消')
-            # self.no_login = ''
-            # self.no_login.show()
+            self.no_login = run_window()
+            self.no_login.show()
+            self.shut()
     def keyPressEvent(self, QKeyEvent):
         """
         监听键盘触发事件,通过判断是否按下的按键为Enter或者Return键

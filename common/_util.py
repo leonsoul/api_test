@@ -18,8 +18,8 @@ Responses = SUPER_DIR + '\img\\result.ico'
 History_LOG = SUPER_DIR + '\img\\txt_log.ico'
 toast_logo = SUPER_DIR + '\img\\tips.ico'
 start_bj = SUPER_DIR + '\img\\bg.jpg'
-log_txt = SUPER_DIR + '\log\log.txt'
-# print(log_txt)
+log_txt = SUPER_DIR + '\data\log.txt'
+toKEN = SUPER_DIR + '\data\\toKEN.txt'
 
 
 def get_md5(data):

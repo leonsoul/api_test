@@ -14,8 +14,9 @@ from PyQt5.QtCore import Qt
 from UI.login_page import Ui_Form
 from PyQt5.QtWidgets import QApplication, QWidget, QMessageBox
 
-from common._util import args_map
+from common._util import args_map, log_txt,toKEN
 from common.enter_client import Http_Client
+from view.run_view import run_window
 
 
 class login_window(Ui_Form,QWidget):
@@ -42,17 +43,31 @@ class login_window(Ui_Form,QWidget):
             if mold == None:
                 self.msg_box('提示','输入信息不完整。。。')
             elif mold == 'req_out':
-                self.msg_box('提示','输入有误,请求成功。。。')
+                self.msg_box('提示','输入有误,请求失败。。。')
             else:
-                print('cg')
-                # self.data_main = MY_window2()
-                # self.data_main.show()
-    def get_text(self):
-        if self.guituu.isChecked() == True:
-            host = 'https://m.guituu.com/rest/v3/login'
-        elif self.alltuu.isChecked() == True:
-            host = 'https://am.alltuu.com/rest/v3/login'
+                i = self.get_host()
+                self.data_main = run_window()
+                self.data_main.show()
+                self.shut()
+                self.data_main.gettoken.setText(mold)
+                self.data_main._comboxdemo(int(i))
+    def get_host(self):
         try:
+            if self.guituu.isChecked() == True:
+                return '1'
+                # host = 'https://m.guituu.com/rest/v3/login'
+            elif self.alltuu.isChecked() == True:
+                # host = 'https://am.alltuu.com/rest/v3/login'
+                return '2'
+        except:
+            return None
+    def get_text(self):
+        try:
+            host = self.get_host()
+            if host == '1':
+                url = 'https://m.guituu.com/rest/v3/login'
+            elif host == '2':
+                url = 'https://am.alltuu.com/rest/v3/login'
             get_phone = self.phone.text()
             get_pwd = self.pasw.text()
             if get_phone == '' or get_pwd == '' :
@@ -60,9 +75,11 @@ class login_window(Ui_Form,QWidget):
             else:
                 try:
                     data = args_map(get_phone,get_pwd)
-                    req = self._url_report(host,data)
+                    req = self._url_report(url,data)
                     if req == None:
                         return 'req_out'
+                    else:
+                        return req
                 except:
                     pass
                 return 'ok'
@@ -87,16 +104,18 @@ class login_window(Ui_Form,QWidget):
             req,url = Http_Client().request_url(get_host, data)
             YH_token = req.json()
             url_token = YH_token['data']['token']
+            # print(url_token)
             pc_token = YH_token['data']['obj']['pcToken']
+            # print(pc_token)
             write_txt = {
                 "time": data_time,
                 "token": url_token,
                 "PCtoken": pc_token,
                 "URL":url
             }
-            # with open(log_txt, "a+") as file:  # 只需要将之前的”w"改为“a"即可，代表追加内容
-            #         file.write(str(write_txt) + "\n")
-            return 'ok'
+            with open(log_txt, "a+") as file:  # 只需要将之前的”w"改为“a"即可，代表追加内容
+                file.write(str(write_txt) + "\n")
+            return url_token
         except:
             return None
     def open(self):  # 被调用的类需要再编写一个open函数
