@@ -14,8 +14,9 @@ from PyQt5.QtCore import Qt
 from UI.login_page import Ui_Form
 from PyQt5.QtWidgets import QApplication, QWidget, QMessageBox
 
-from common._util import args_map
+from common._util import args_map, log_txt,toKEN
 from common.enter_client import Http_Client
+
 
 
 class login_window(Ui_Form,QWidget):
@@ -94,8 +95,10 @@ class login_window(Ui_Form,QWidget):
                 "PCtoken": pc_token,
                 "URL":url
             }
-            # with open(log_txt, "a+") as file:  # 只需要将之前的”w"改为“a"即可，代表追加内容
-            #         file.write(str(write_txt) + "\n")
+            with open(log_txt, "a+") as file:  # 只需要将之前的”w"改为“a"即可，代表追加内容
+                    file.write(str(write_txt) + "\n")
+            with open(toKEN,'w')as f:
+                f.write(url_token)
             return 'ok'
         except:
             return None

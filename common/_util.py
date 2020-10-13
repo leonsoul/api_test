@@ -19,6 +19,7 @@ History_LOG = SUPER_DIR + '\img\\txt_log.ico'
 toast_logo = SUPER_DIR + '\img\\tips.ico'
 start_bj = SUPER_DIR + '\img\\bg.jpg'
 log_txt = SUPER_DIR + '\log\log.txt'
+toKEN = SUPER_DIR + '\log\\toKEN.txt'
 # print(log_txt)
 
 
