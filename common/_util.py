@@ -18,16 +18,8 @@ Responses = SUPER_DIR + '\img\\result.ico'
 History_LOG = SUPER_DIR + '\img\\txt_log.ico'
 toast_logo = SUPER_DIR + '\img\\tips.ico'
 start_bj = SUPER_DIR + '\img\\bg.jpg'
-<<<<<<< HEAD
 log_txt = SUPER_DIR + '\data\log.txt'
 toKEN = SUPER_DIR + '\data\\toKEN.txt'
-=======
-log_txt = SUPER_DIR + '\log\log.txt'
-toKEN = SUPER_DIR + '\log\\toKEN.txt'
-# print(log_txt)
-
-
->>>>>>> 8c30151366d88bef21ca7ea2a189629cce382852
 def get_md5(data):
     """
     获取md5加密密文

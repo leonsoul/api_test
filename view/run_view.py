@@ -38,18 +38,12 @@ class run_window(Ui_MainWindow,QMainWindow):
         :param tag: 按钮类型
         """
         if tag == 'send':
-<<<<<<< HEAD
             res = self.get_count()
             if res == None:
                 self.msg_box('提示', '输入有误、请求失败。。。')
             else:
-                pass        elif tag == 'clEAr':
-=======
-            res = self.api_request()
-            if res == None:
-                print('out')
+                pass
         elif tag == 'clEAr':
->>>>>>> 8c30151366d88bef21ca7ea2a189629cce382852
             self.Purge()
             self.msg_box('提示', '清除完成。。。')
     def _comboxdemo(self,i):
@@ -73,7 +67,6 @@ class run_window(Ui_MainWindow,QMainWindow):
         thread = self.thread_Count.text()
         if api == '':
             if thread == '':
-<<<<<<< HEAD
                 self.more(1,1)
             else:
                 self.more(thread,1)
@@ -119,12 +112,9 @@ class run_window(Ui_MainWindow,QMainWindow):
         """
         try:
             msg = self.args_map.toPlainText()
-            # msg = {
-            #     "orderIdN": "4050eaa958dd087f",
-            #     "schemeIdN": "a6032be88d26a11f",
-            #     "type": '0'
-            # }
+            print(msg)
             msg_json = json.dumps(msg)
+            print(type(msg_json))
             return msg_json
         except:
             return None
@@ -158,7 +148,7 @@ class run_window(Ui_MainWindow,QMainWindow):
             token = self.gettoken.text()
             if token == '':
                 return None
-            res = self.client.request_url(HTTP_METHOD, source, url, token, api_v, args_map)
+            res,url = self.client.request_url(HTTP_METHOD,source,token,api_v, api_v, args_map)
             res_txt = res.text()
             print(res_txt)
             verify = self.get_enMsg(res)
@@ -177,19 +167,6 @@ class run_window(Ui_MainWindow,QMainWindow):
     def msg_box(self,title, msg):
         """提示框 """
         QMessageBox.warning(self,title, msg, QMessageBox.Yes)
-
-
-
-=======
-                return '1','1'
-            else:
-                return '1',thread
-        else:
-            if thread == '':
-                return api,'1'
-            else:
-                return api,thread
->>>>>>> 8c30151366d88bef21ca7ea2a189629cce382852
     def get_mag(self):
         """
         参数格式json

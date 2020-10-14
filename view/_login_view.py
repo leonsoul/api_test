@@ -103,7 +103,11 @@ class login_window(Ui_Form,QWidget):
         """
         data_time = time.strftime('%Y_%m_%d_%H_%M_%S', time.localtime(time.time()))
         try:
-            req,url = Http_Client().request_url(get_host, data)
+            HTTP_METHOD = "POST"
+            source = '0'
+            token = '0'
+            api_v = '0'
+            req,url = Http_Client().request_url(HTTP_METHOD,source,token,api_v,get_host, data)
             YH_token = req.json()
             url_token = YH_token['data']['token']
             # print(url_token)
@@ -115,14 +119,11 @@ class login_window(Ui_Form,QWidget):
                 "PCtoken": pc_token,
                 "URL":url
             }
-<<<<<<< HEAD
-=======
             with open(log_txt, "a+") as file:  # 只需要将之前的”w"改为“a"即可，代表追加内容
                     file.write(str(write_txt) + "\n")
             with open(toKEN,'w')as f:
                 f.write(url_token)
             return 'ok'
->>>>>>> 8c30151366d88bef21ca7ea2a189629cce382852
         except:
             return None
     def open(self):  # 被调用的类需要再编写一个open函数

@@ -60,11 +60,7 @@ class Http_Client:
         signature_string = "v%s-%s-%s-%s-%s" % (source, timestamp, token, api_v, signature_generate)
         return signature_string
     @classmethod
-    def request_url(cls,host,args_map):
-        HTTP_METHOD = "POST"
-        source ='0'
-        token ='0'
-        api_v ='0'
+    def request_url(cls,HTTP_METHOD,source,token,api_v,host,args_map):
         bady = cls.sign_url(source,token,api_v,args_map)
         re_url = host + '/' + bady
         return cls.report(HTTP_METHOD=HTTP_METHOD,re_url=re_url,args_map=args_map),re_url
