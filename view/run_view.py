@@ -38,11 +38,18 @@ class run_window(Ui_MainWindow,QMainWindow):
         :param tag: 按钮类型
         """
         if tag == 'send':
+<<<<<<< HEAD
             res = self.get_count()
             if res == None:
                 self.msg_box('提示', '输入有误、请求失败。。。')
             else:
                 pass        elif tag == 'clEAr':
+=======
+            res = self.api_request()
+            if res == None:
+                print('out')
+        elif tag == 'clEAr':
+>>>>>>> 8c30151366d88bef21ca7ea2a189629cce382852
             self.Purge()
             self.msg_box('提示', '清除完成。。。')
     def _comboxdemo(self,i):
@@ -66,6 +73,7 @@ class run_window(Ui_MainWindow,QMainWindow):
         thread = self.thread_Count.text()
         if api == '':
             if thread == '':
+<<<<<<< HEAD
                 self.more(1,1)
             else:
                 self.more(thread,1)
@@ -172,6 +180,16 @@ class run_window(Ui_MainWindow,QMainWindow):
 
 
 
+=======
+                return '1','1'
+            else:
+                return '1',thread
+        else:
+            if thread == '':
+                return api,'1'
+            else:
+                return api,thread
+>>>>>>> 8c30151366d88bef21ca7ea2a189629cce382852
     def get_mag(self):
         """
         参数格式json

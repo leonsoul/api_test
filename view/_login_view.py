@@ -20,6 +20,7 @@ from view.run_view import run_window
 
 
 
+
 class login_window(Ui_Form,QWidget):
     def __init__(self):
         """
@@ -114,6 +115,14 @@ class login_window(Ui_Form,QWidget):
                 "PCtoken": pc_token,
                 "URL":url
             }
+<<<<<<< HEAD
+=======
+            with open(log_txt, "a+") as file:  # 只需要将之前的”w"改为“a"即可，代表追加内容
+                    file.write(str(write_txt) + "\n")
+            with open(toKEN,'w')as f:
+                f.write(url_token)
+            return 'ok'
+>>>>>>> 8c30151366d88bef21ca7ea2a189629cce382852
         except:
             return None
     def open(self):  # 被调用的类需要再编写一个open函数
