@@ -42,8 +42,7 @@ class run_window(Ui_MainWindow,QMainWindow):
             if res == None:
                 self.msg_box('提示', '输入有误、请求失败。。。')
             else:
-                pass
-        elif tag == 'clEAr':
+                pass        elif tag == 'clEAr':
             self.Purge()
             self.msg_box('提示', '清除完成。。。')
     def _comboxdemo(self,i):
@@ -170,6 +169,63 @@ class run_window(Ui_MainWindow,QMainWindow):
     def msg_box(self,title, msg):
         """提示框 """
         QMessageBox.warning(self,title, msg, QMessageBox.Yes)
+
+
+
+    def get_mag(self):
+        """
+        参数格式json
+        :return:str转化为json
+        """
+        try:
+            msg = self.args_map.toPlainText()
+            msg_json = json.dumps(msg)
+            return msg_json
+        except:
+            return None
+    def get_enMsg(self,emsg):
+        """
+        获取校验enmsg
+        :return:
+        """
+        try:
+            msg = self.enMsg.text()
+            if msg == '':
+                return None
+            else:
+                enmsg = emsg.json()
+                if enmsg['enMsg'] == msg:
+                    return 'ok'
+                else:
+                    return 'out'
+        except:
+            return None
+    def api_request(self):
+        """
+        接口发送请求
+        """
+        HTTP_METHOD = 'POST'
+        api_v = '0'
+        source = '1'
+        try:
+            url = self.url.text()
+            if url == '':
+                return None
+            args_map = self.get_mag()
+            if args_map == None:
+                return None
+            token = self.gettoken.text()
+            if token == '':
+                return None
+            res = self.client.request_url(HTTP_METHOD, source, url, token, api_v, args_map)
+            res_txt = res.text()
+            verify = self.get_enMsg(res)
+            if verify == None:
+                return None
+            else:
+                return verify
+        except:
+            return None
 
 
 
