@@ -15,6 +15,7 @@ from PyQt5.QtWidgets import QApplication, QMainWindow, QMessageBox
 
 from UI.operation import Ui_MainWindow
 from common._util import toKEN
+from common.enter_client import Http_Client
 
 
 class run_window(Ui_MainWindow,QMainWindow):
@@ -38,11 +39,12 @@ class run_window(Ui_MainWindow,QMainWindow):
         :param tag: 按钮类型
         """
         if tag == 'send':
-            res = self.get_count()
-            if res == None:
-                self.msg_box('提示', '输入有误、请求失败。。。')
+            TEXT_data = self.get_text()
+            print(TEXT_data)
+            if TEXT_data == None:
+                self.msg_box('提示','输入信息不完整')
             else:
-                pass
+                self.get_count()
         elif tag == 'clEAr':
             self.Purge()
             self.msg_box('提示', '清除完成。。。')
@@ -53,11 +55,32 @@ class run_window(Ui_MainWindow,QMainWindow):
         """
         self.comboBox.setCurrentIndex(i)  #設置默認值
     def Purge(self):
+        '''
+        输入框清除
+        '''
         self.url.clear()
         self.args_map.clear()
         self.apiCount.clear()
         self.enMsg.clear()
         self.thread_Count.clear()
+    def get_text(self):
+        url = self.url.text()
+        if url == '':
+            return None
+        msg = self.args_map.toPlainText()
+        if msg == '':
+            return None
+        else:
+            try:
+                msg_data = msg.replace('\n', '').replace(' ', '')
+                data = json.loads(msg_data)
+            except:
+                return None
+        token = self.gettoken.text()
+        if token == '':
+            return None
+        # return 'ok'
+        return self.api_request(url,data,token)
     def get_count(self):
         """
         获取前端线程数，循环数
@@ -69,12 +92,12 @@ class run_window(Ui_MainWindow,QMainWindow):
             if thread == '':
                 self.more(1,1)
             else:
-                self.more(thread,1)
+                self.more(int(thread),1)
         else:
             if thread == '':
-                self.more(1,api)
+                self.more(1,int(api))
             else:
-                self.more(thread,api)
+                self.more(int(thread),int(api))
     def more(self,THREAD_NUM,ONE_WORKER_NUM):
         """
         线程运行
@@ -93,6 +116,13 @@ class run_window(Ui_MainWindow,QMainWindow):
         for t in Threads:
             t.join()
         t2 = time.time()
+        print("===============压测结果===================")
+        print("任务数量:", THREAD_NUM, "*", ONE_WORKER_NUM,"=", THREAD_NUM * ONE_WORKER_NUM)
+        print("总耗时(秒):", t2 - t1)
+        print("每次请求耗时(秒):", (t2 - t1) / (THREAD_NUM * ONE_WORKER_NUM))
+        print("每秒承载请求数:", 1 / ((t2 - t1) / (THREAD_NUM * ONE_WORKER_NUM)))
+        print("错误数量:", error_NUM)
+        print("成功数量:", win_NUM)
     def working(self,ONE_WORKER_NUM):
         """
         每个线程循环数
@@ -103,81 +133,32 @@ class run_window(Ui_MainWindow,QMainWindow):
         i = 0
         while i < ONE_WORKER_NUM:
             i +=1
-            self.api_request()
+            self.get_text()
             time.sleep(0.1)
-    def get_mag(self):
-        """
-        参数格式json
-        :return:str转化为json
-        """
-        try:
-            msg = self.args_map.toPlainText()
-            print(msg)
-            msg_json = json.dumps(msg)
-            print(type(msg_json))
-            return msg_json
-        except:
-            return None
-    def get_enMsg(self,emsg):
-        """
-        获取校验enmsg
-        """
-        try:
-            msg = self.enMsg.text()
-            if msg == '':
-                return 'null'
-            else:
-                return msg
-        except:
-            return None
-    def api_request(self):
+    def api_request(self,get_host,data,token):
         """
         接口发送请求
         """
-        global win_NUM, ERROR_NUM
-        HTTP_METHOD = 'POST'
-        api_v = '0'
-        source = '1'
+        global win_NUM,error_NUM
         try:
-            url = self.url.text()
-            if url == '':
-                return None
-            args_map = self.get_mag()
-            if args_map == None:
-                return None
-            token = self.gettoken.text()
-            if token == '':
-                return None
-            res,url = self.client.request_url(HTTP_METHOD,source,token,api_v, api_v, args_map)
-            res_txt = res.text()
-            print(res_txt)
-            verify = self.get_enMsg(res)
-            if verify == 'null':
-                return 'null'
+            HTTP_METHOD = "POST"
+            source = '0'
+            api_v = '0'
+            req, url = Http_Client().request_url(HTTP_METHOD, source, token, api_v, get_host, data)
+            res_txt = req.text
+            verify = self.get_enMsg(req)
+            if req.status_code() == 200:
+                win_NUM += 1
+                # return 'ok'
             else:
-                enmsg = res.json()
-                if enmsg['enMsg'] == verify:
-                    return 'ok'
-                    win_NUM += 1
-                else:
-                    return 'out'
-                    ERROR_NUM += 1
+                error_NUM += 1
+                # return None
         except:
-            return None
+            error_NUM +=1
+            # return None
     def msg_box(self,title, msg):
         """提示框 """
         QMessageBox.warning(self,title, msg, QMessageBox.Yes)
-    def get_mag(self):
-        """
-        参数格式json
-        :return:str转化为json
-        """
-        try:
-            msg = self.args_map.toPlainText()
-            msg_json = json.dumps(msg)
-            return msg_json
-        except:
-            return None
     def get_enMsg(self,emsg):
         """
         获取校验enmsg
@@ -186,39 +167,13 @@ class run_window(Ui_MainWindow,QMainWindow):
         try:
             msg = self.enMsg.text()
             if msg == '':
-                return None
+                return 'null'
             else:
                 enmsg = emsg.json()
                 if enmsg['enMsg'] == msg:
                     return 'ok'
                 else:
                     return 'out'
-        except:
-            return None
-    def api_request(self):
-        """
-        接口发送请求
-        """
-        HTTP_METHOD = 'POST'
-        api_v = '0'
-        source = '1'
-        try:
-            url = self.url.text()
-            if url == '':
-                return None
-            args_map = self.get_mag()
-            if args_map == None:
-                return None
-            token = self.gettoken.text()
-            if token == '':
-                return None
-            res = self.client.request_url(HTTP_METHOD, source, url, token, api_v, args_map)
-            res_txt = res.text()
-            verify = self.get_enMsg(res)
-            if verify == None:
-                return None
-            else:
-                return verify
         except:
             return None
 
@@ -229,4 +184,7 @@ if __name__ == '__main__':
     win = run_window()
     win.show()
     sys.exit(app.exec_())
-    # win.get_mag()
+    # {
+    #     "name":"15191333567",
+    #     "pwd":"25d55ad283aa400af464c76d713c07ad"
+    # }

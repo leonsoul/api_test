@@ -121,9 +121,7 @@ class login_window(Ui_Form,QWidget):
             }
             with open(log_txt, "a+") as file:  # 只需要将之前的”w"改为“a"即可，代表追加内容
                     file.write(str(write_txt) + "\n")
-            with open(toKEN,'w')as f:
-                f.write(url_token)
-            return 'ok'
+            return url_token
         except:
             return None
     def open(self):  # 被调用的类需要再编写一个open函数
