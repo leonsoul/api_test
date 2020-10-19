@@ -14,7 +14,6 @@ import time
 from PyQt5.QtWidgets import QApplication, QMainWindow, QMessageBox
 
 from UI.operation import Ui_MainWindow
-from common._util import toKEN
 from common.enter_client import Http_Client
 
 
@@ -81,6 +80,16 @@ class run_window(Ui_MainWindow,QMainWindow):
             return None
         # return 'ok'
         return self.api_request(url,data,token)
+    def get_text_api(self):
+        url = self.url.text()
+        msg = self.args_map.toPlainText()
+        try:
+            msg_data = msg.replace('\n', '').replace(' ', '')
+            data = json.loads(msg_data)
+        except:
+            return None
+        token = self.gettoken.text()
+        return self.api_request(url,data,token)
     def get_count(self):
         """
         获取前端线程数，循环数
@@ -133,7 +142,7 @@ class run_window(Ui_MainWindow,QMainWindow):
         i = 0
         while i < ONE_WORKER_NUM:
             i +=1
-            self.get_text()
+            self.get_text_api()
             time.sleep(0.1)
     def api_request(self,get_host,data,token):
         """
