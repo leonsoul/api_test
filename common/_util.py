@@ -20,6 +20,7 @@ toast_logo = SUPER_DIR + '\img\\tips.ico'
 start_bj = SUPER_DIR + '\img\\bg.jpg'
 log_txt = SUPER_DIR + '\data\log.txt'
 toKEN = SUPER_DIR + '\data\\toKEN.txt'
+req_txt = SUPER_DIR + '\data\\req_txt.txt'
 def get_md5(data):
     """
     获取md5加密密文

@@ -14,6 +14,7 @@ import time
 from PyQt5.QtWidgets import QApplication, QMainWindow, QMessageBox
 
 from UI.operation import Ui_MainWindow
+from common._util import req_txt
 from common.enter_client import Http_Client
 
 
@@ -63,6 +64,10 @@ class run_window(Ui_MainWindow,QMainWindow):
         self.enMsg.clear()
         self.thread_Count.clear()
     def get_text(self):
+        """
+        判断前端表单数据是否填写
+        :return: NONE/ok
+        """
         url = self.url.text()
         if url == '':
             return None
@@ -78,17 +83,13 @@ class run_window(Ui_MainWindow,QMainWindow):
         token = self.gettoken.text()
         if token == '':
             return None
-        # return 'ok'
-        return self.api_request(url,data,token)
+        return 'ok'
     def get_text_api(self):
         url = self.url.text()
-        msg = self.args_map.toPlainText()
-        try:
-            msg_data = msg.replace('\n', '').replace(' ', '')
-            data = json.loads(msg_data)
-        except:
-            return None
         token = self.gettoken.text()
+        msg = self.args_map.toPlainText()
+        msg_data = msg.replace('\n', '').replace(' ', '')
+        data = json.loads(msg_data)
         return self.api_request(url,data,token)
     def get_count(self):
         """
@@ -99,21 +100,22 @@ class run_window(Ui_MainWindow,QMainWindow):
         thread = self.thread_Count.text()
         if api == '':
             if thread == '':
-                self.more(1,1)
+                return (1,1)
             else:
-                self.more(int(thread),1)
+                return int(thread),1
         else:
             if thread == '':
-                self.more(1,int(api))
+                return 1,int(api)
             else:
-                self.more(int(thread),int(api))
-    def more(self,THREAD_NUM,ONE_WORKER_NUM):
+                return int(thread),int(api)
+    def more(self):
         """
         线程运行
         :param THREAD_NUM: 线程数
         :param ONE_WORKER_NUM: 每个线程运行时间
         :return:
         """
+        THREAD_NUM,ONE_WORKER_NUM =self.get_count()
         t1 = time.time()
         Threads = []
         for i in range(THREAD_NUM):
@@ -126,7 +128,7 @@ class run_window(Ui_MainWindow,QMainWindow):
             t.join()
         t2 = time.time()
         print("===============压测结果===================")
-        print("任务数量:", THREAD_NUM, "*", ONE_WORKER_NUM,"=", THREAD_NUM * ONE_WORKER_NUM)
+        print("任务数量:", THREAD_NUM, "*", ONE_WORKER_NUM, "=", THREAD_NUM * ONE_WORKER_NUM)
         print("总耗时(秒):", t2 - t1)
         print("每次请求耗时(秒):", (t2 - t1) / (THREAD_NUM * ONE_WORKER_NUM))
         print("每秒承载请求数:", 1 / ((t2 - t1) / (THREAD_NUM * ONE_WORKER_NUM)))
@@ -149,19 +151,20 @@ class run_window(Ui_MainWindow,QMainWindow):
         接口发送请求
         """
         global win_NUM,error_NUM
+        data_time = time.strftime('%Y_%m_%d_%H_%M_%S', time.localtime(time.time()))
         try:
             HTTP_METHOD = "POST"
             source = '0'
             api_v = '0'
             req, url = Http_Client().request_url(HTTP_METHOD, source, token, api_v, get_host, data)
-            res_txt = req.text
+            res_txt = req.texts
             verify = self.get_enMsg(req)
+            with open(req_txt, "a+") as file:  # 只需要将之前的”w"改为“a"即可，代表追加内容
+                file.write(data_time + str(res_txt) + "校验结果：%s"%verify+"\n")
             if req.status_code() == 200:
                 win_NUM += 1
-                # return 'ok'
             else:
                 error_NUM += 1
-                # return None
         except:
             error_NUM +=1
             # return None

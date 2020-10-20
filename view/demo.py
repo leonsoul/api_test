@@ -110,3 +110,7 @@ source = '1'
 # args_map = '{"name":"15191333567","pwd":"25d55ad283aa400af464c76d713c07ad"}'
 res,url1 = Http_Client().request_url(HTTP_METHOD,source,token,api_v,url, args_map)
 print(res.text)
+# {
+#     "name":"15191333567",
+#     "pwd":"25d55ad283aa400af464c76d713c07ad"
+# }

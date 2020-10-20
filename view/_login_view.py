@@ -93,7 +93,7 @@ class login_window(Ui_Form,QWidget):
         :param QKeyEvent: 键盘触发事件
         """
         if QKeyEvent.key() == Qt.Key_Enter or QKeyEvent.key() == Qt.Key_Return:
-            self.send.click()
+            self.pushButton.click()
     def _url_report(self,get_host, data):
         """
         發送請求
