@@ -2,7 +2,7 @@
 # -*- coding:utf-8 -*-  
 # ====#====#====#====
 # Author: wangben
-# CreatDate: 2020/9/25 16:29
+# CreateDate: 2020/9/25 16:29
 # Filename:test_db.py
 # Function:acc数据库连接操作
 # ====#====#====#====

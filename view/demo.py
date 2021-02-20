@@ -1,11 +1,13 @@
-#!/usr/bin/env python
-# -*- coding:utf-8 -*-  
+# !/usr/bin/env python
+# -*- coding:utf-8 -*-
 # ====#====#====#====
 # Author: wangben
 # CreatDate: 2020/10/13 18:41
 # Filename:demo.py
 # Function:
 # ====#====#====#====
+
+
 # from PyQt5.QtCore import *
 # from PyQt5.QtGui import *
 # from  PyQt5.QtWidgets import *
@@ -95,22 +97,32 @@
 #     p=Mulwindow()
 #     p.show()
 #     sys.exit(app.exec_())
-import json
+# import json
 
-msg = '{\n    \"name\":\"15191333567\",\n    \"pwd\":\"25d55ad283aa400af464c76d713c07ad\"\n}'
-msg_data = msg.replace('\n', '').replace(' ', '')
-args_map = json.loads(msg_data)
-print(args_map)
-from common.enter_client import Http_Client
-url = 'https://am.alltuu.com/rest/v3/login'
-token = '0'
-HTTP_METHOD = 'POST'
-api_v = '0'
-source = '1'
-# args_map = '{"name":"15191333567","pwd":"25d55ad283aa400af464c76d713c07ad"}'
-res,url1 = Http_Client().request_url(HTTP_METHOD,source,token,api_v,url, args_map)
-print(res.text)
+# msg = '{\n    \"name\":\"18511902959\",\n    \"pwd\":\"e10adc3949ba59abbe56e057f20f883e\"\n}'
+# msg_data = msg.replace('\n', '').replace(' ', '')
+# args_map = json.loads(msg_data)
+# # print(args_map)
+# from common.enter_client import Http_Client
+# # url = 'https://am.alltuu.com/rest/v3/login'
+# url = 'https://v.guituu.com/rest/v3/login'
+# token = '0'
+# HTTP_METHOD = 'POST'
+# api_v = '0'
+# source = '1'
+# # args_map = '{"name":"15191333567","pwd":"25d55ad283aa400af464c76d713c07ad"}'
+# res,url1 = Http_Client().request_url(HTTP_METHOD,source,token,api_v,url, args_map)
+# # print(res.text)
+# print(url1)
 # {
 #     "name":"15191333567",
 #     "pwd":"25d55ad283aa400af464c76d713c07ad"
 # }
+
+class Demo:
+    ListQ = [1, 2, 2, 3, 5, 4, 6, 8, 9, 7, 0]
+    print(len(ListQ), set(ListQ), len(set(ListQ)))
+
+
+if __name__ == '__main__':
+    Demo()
